@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}首頁{% endblock %}
+{% block page-title %}歡迎光臨何老師的網站{% endblock %}
+{% block main-content %}
+<h3 class="alert alert-primary">歡迎光臨示範網站</h3>
+<hr>
+<center>
+    {% if request.user.is_authenticated %}
+    <div class="card" style="width: 40rem;">
+        <div class="card-header">
+            <h4>{{ request.user.username }}</h4>
+        </div>
+        <div class="card-body">
+            姓名：{{ request.user.last_name }} {{ request.user.first_name }}
+        </div>
+        <div class="card-footer">
+            {{ request.user.email }}
+        </div>
+    </div>
+    {% else %}
+    使用者未登入！
+    {% endif %}
+</center>
+
+{% endblock %}

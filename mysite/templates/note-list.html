@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} 隨身記事列表 {% endblock %}
+{% block page-title %} 隨身記事列表 {% endblock %}
+{% block main-content %}
+<script>
+    NoteTypeName = {
+        {% for ntype in ntypes %}
+            "{{ ntype.id }}": "{{ ntype.name }}",
+        {% endfor %}
+    };
+    function ShowNoteTypeName(t) {
+        document.write(NoteTypeName[t]);
+    }
+    $(document).ready(function() {
+        $("#note-type").change(function() {
+            window.location.replace("/note/list/"+$(this).val()+"/");
+        })
+    })
+</script>
+<div align="center">
+    記事類別：
+    <select id="note-type">
+        <option value="0">請選擇一個類別</option>
+        <option value="0">全部顯示</option>
+        {% for ntype in ntypes %}
+            <option value="{{ ntype.id }}">{{ ntype.name }}</option>
+        {% endfor %}
+    </select>
+    <table class="table table-striped">
+        <tr>
+            <th>日期</th><th>記事名稱</th>
+            <th>
+                <a href={% url "notelist" %}>記事型態</a>
+            </th>
+            <th>金額</th>
+        </tr>
+    {% for item in notes %}
+        <tr>
+            <td> {{ item.note_date }}</td>
+            <td> {{ item.note }} </td>
+            <td> 
+                <a href="/note/list/{{ item.note_type.id}}/">
+                    <script> 
+                        ShowNoteTypeName("{{ item.note_type.id }}");
+                    </script> 
+                </a>
+            </td>
+            <td align="right"> 
+                {% if item.money > 0 %} {{ item.money }} {% else %} - {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan=4>沒有任何記事可以顯示</td></tr>
+    {% endfor %}
+    </table>
+</div>  
+{% endblock %}

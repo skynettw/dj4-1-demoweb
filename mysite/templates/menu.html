@@ -1,0 +1,63 @@
+<div align='center'>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            {% if request.user.is_authenticated %}
+              {{ request.user.username }}
+            {% else %}
+              天外訪客
+            {% endif %}
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/tasklist/">任務列表</a>
+              </li>
+              {% if not request.user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/login/?next=/">登入</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/">後台管理</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/logout/?next=/">登出</a>
+              </li>
+              {% endif %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  更多功能
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/polls/">校花票選</a></li>
+                  <li><a class="dropdown-item" href="/rate/">匯率</a></li>
+                  <li><a class="dropdown-item" href="/bmi2/">BMI2</a></li>
+                  <li><a class="dropdown-item" href="/bmi/">BMI</a></li>
+                  <li><a class="dropdown-item" href="/mytask/">我的任務</a></li>
+                  <li><a class="dropdown-item" href="/lotto/">樂透號碼</a></li>
+                  <li><a class="dropdown-item" href="/task/">任務清單(舊)</a></li>
+                  <li><a class="dropdown-item" href="/saveimage/">顯示圖檔</a></li>
+                  <li><a class="dropdown-item" href="/chart/">圖表範例</a></li>
+                  <li><a class="dropdown-item" href="/jqtest/">jQuery測試</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  隨身記事
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/note/list/">顯示所有記事</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} jQuery 測試 {% endblock %}
+{% block page-title %} jQuery 測試 {% endblock %}
+{% block main-content %}
+<script>
+    $(document).ready(function(){
+        $("#hide-msg").click(function() {
+            $("#msg").hide();
+        });
+        $("#show-msg").click(function() {
+            $("#msg").show();
+        });
+    });
+</script>
+<a class="btn btn-warning" id="hide-msg">隱藏訊息</a>
+<a class="btn btn-primary" id="show-msg">顯示訊息</a>
+<h3 id="msg" class="alert alert-primary"> 請按上方的按鈕，顯示或隱藏本訊息 </h3>
+{% endblock %}

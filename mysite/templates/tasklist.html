@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Task List</title>
+    </head>
+    <body>
+        <div align="center">
+            <h1> My Task List</h1>
+            <hr/>
+            <table bgcolor="#000000">
+                <tr bgcolor="#cccccc">
+                    <th>編號</th><th>任務項目</th><th>已完成</th>
+                </tr>
+            {% for task in tasks reversed %}
+                <tr bgcolor={% cycle "#ccffcc" "#ffccff" %}>
+                    <td> {{ forloop.counter }}</td>
+                    <td> {{ task.item }} </td>
+                    <td> {{ task.done | yesno:"是,否"}} </td>
+                </tr>
+            {% empty %}
+                <tr><td bgcolor="#ffffff" colspan=3>沒有任何任務</td></tr>
+            {% endfor %}
+            </table>
+        </div>  
+    </body>
+</html>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} My Task {% endblock %}
+{% block page-title %} My Task (jQuery) {% endblock %}
+{% block main-content %}
+<script>
+    $(document).ready(function(){
+        $("#show-all").click(function() {
+            $("tr").show();
+        });
+        $("#show-undone").click(function() {
+            $("tr.done").hide();
+        });
+    });
+</script>
+<div align="center">
+    <h4 class="alert alert-warning">已封存項目</h4>
+    <table bgcolor="#000" width=600>
+        <tr bgcolor="#ccc">
+            <th>編號</th><th>任務項目</th><th>管理</th>
+        </tr>
+    {% for task in tasks reversed %}
+        <tr bgcolor={% cycle "#cfc" "#fcf" %} class="{{ task.done | yesno:"done,undone"}}">
+            <td> {{ forloop.counter }}</td>
+            <td> 
+                <i class='bi {{ task.done | yesno:"bi-bookmark-check-fill,bi-bookmark-check"}}'></i>
+                {{ task.item }}
+            </td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" 
+                   href="/mytask/unarchive/{{ task.id }}/">
+                    <i class='bi bi-toggles'></i>解除封存
+                </a>
+                <a class="btn btn-sm btn-outline-danger" 
+                   href="/mytask/delete/{{ task.id }}/">
+                    <i class='bi bi-trash'></i>刪除
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td bgcolor="#fff" colspan=3>沒有任何任務</td></tr>
+    {% endfor %}
+    </table>
+</div>  
+{% endblock %}

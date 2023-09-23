@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} BMI2 {% endblock %}
+{% block page-title %} BMI2 {% endblock %}
+{% block main-content %}
+<div align="center">
+    <a class="btn btn-sm btn-secondary" href={% url "bmi2" %}>顯示全部</a>
+    <table class="table table-striped table-sm">
+        <tr>
+            <th>姓名</th><th>性別</th><th>身高</th><th>體重</th><th>BMI</th>
+        </tr>
+    {% for item in data.iterrows %}
+        {% if item.1.BMI > 24 or item.1.BMI < 18 %}
+        <tr class="bg-warning">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td> {{ item.1.name }} </td>
+            <td> 
+                <a href="/bmi2/{{ item.1.gender | yesno:"1,0"}}/">
+                    {{ item.1.gender | yesno:"男,女" }}
+                </a>
+            <td> {{ item.1.height }}公分 </td>
+            <td> {{ item.1.weight }}公斤 </td>
+            <td> {{ item.1.BMI }} </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan=4>沒有任何資料可以顯示</td></tr>
+    {% endfor %}
+    </table>
+</div>  
+{% endblock %}

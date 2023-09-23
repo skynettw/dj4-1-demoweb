@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %} My Task {% endblock %}
+{% block page-title %} My Task (jQuery) {% endblock %}
+{% block main-content %}
+<script>
+    $(document).ready(function(){
+        $("#show-all").click(function() {
+            $("tr").show();
+        });
+        $("#show-undone").click(function() {
+            $("tr.done").hide();
+        });
+    });
+</script>
+<div align="center">
+    <a class="btn btn-sm btn-primary" id='show-all'>全部顯示</a>
+    <a class="btn btn-sm btn-primary" id='show-undone'>隱藏已完成</a>
+    <a class="btn btn-sm btn-primary" href="/mytask/archive/">
+        顯示已封存</a>
+    <table bgcolor="#000" width=600>
+        {% if request.user.is_authenticated %}
+        <tr>
+            <td colspan=3 bgcolor="#fff" align="center">
+                <br>
+                <form action="/mytask/" method="POST">
+                    {% csrf_token %}
+                    <input type=text size=40 name="itemname" required>
+                    <input type=submit value="新增任務">
+                    <input type=reset value="清除重寫">
+                </form>
+                
+            </td>
+        </tr>
+        {% endif %}
+        <tr bgcolor="#ccc">
+            <th>編號</th><th>任務項目</th><th>管理</th>
+        </tr>
+    {% for task in tasks reversed %}
+        <tr bgcolor={% cycle "#cfc" "#fcf" %} class="{{ task.done | yesno:"done,undone"}}">
+            <td> {{ forloop.counter }}</td>
+            <td> 
+                <i class='bi {{ task.done | yesno:"bi-bookmark-check-fill,bi-bookmark-check"}}'></i>
+                {{ task.item }}
+            </td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" 
+                   href="/mytask/status/{{ task.id }}/">
+                    <i class='bi bi-toggles'></i>切換狀態
+                </a>
+                <a class="btn btn-sm btn-outline-danger" 
+                   href="/mytask/archive/{{ task.id }}/">
+                    <i class='bi bi-archive'></i>封存
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td bgcolor="#fff" colspan=3>沒有任何任務</td></tr>
+    {% endfor %}
+    </table>
+</div>  
+{% endblock %}

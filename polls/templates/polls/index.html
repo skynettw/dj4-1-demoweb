@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 校花票選 {% endblock %}
+{% block page-title %} 校花票選網頁 {% endblock %}
+{% block main-content %}
+    <script src="{% static 'polls/js/main.js' %}"></script>
+    <div class="row">
+    {% for item in data %}
+        <div class="col-3">
+            <div class="card">
+                {% with photo=item.photo_with_path %}
+                    <a href="{% static photo %}">
+                        <img class="card-img-top" src="{% static photo %}">
+                    </a>
+                {% endwith %}
+                <div class="card-body" align="center">
+                    <h5 class="card-title">{{ item.id }}號：{{ item.name }}</h5>
+                    <a class="btn btn-sm btn-outline-primary" 
+                       {% comment %} href="/polls/vote/{{ item.id }}/" {% endcomment %}
+                       id="btn-vote" pid="{{ item.id }}"
+                       >投票</a>
+                </div>
+                <div class="card-footer" align="right">
+                    <span id="votes-{{ item.id }}">
+                        {{ item.vote }}票
+                    </span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
