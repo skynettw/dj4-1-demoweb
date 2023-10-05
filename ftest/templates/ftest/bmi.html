@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 表單測試(BMI) {% endblock %}
+{% block page-title %} 表單測試(BMI) {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-4 mx-auto">
+        {% if bmi %} 
+            <center>{{ h }}公分，{{ w }}公斤， BMI是{{ bmi }} </center>
+        {% endif %}
+        <form action="/ftest/bmi/" method="POST" class="form-sm" style="width: 20rem;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="height">身高：</label>
+                <input type="text" size=3 id="height" name="height" 
+                        class="form-control" placeholder="公分" required>
+                <label for="weight">體重：</label>
+                <input type="text" size=3 id="weight" name="weight" 
+                        class="form-control mb-3" placeholder="公斤" required>
+                <input type="submit" value="計算" class="btn btn-sm btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

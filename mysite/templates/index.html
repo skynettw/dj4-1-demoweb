@@ -20,6 +20,8 @@
     {% else %}
     使用者未登入！
     {% endif %}
+    {% load thumbnail %}
+    <img src="{% thumbnail images.1.image 200x200 crop %}">
 </center>
 
 {% endblock %}

@@ -9,6 +9,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+def gallery(request):
+    data = models.Gallery.objects.all()
+    return render(request, "gallery.html", locals())
+
 # def rate(request):
 #     data = models.ExchangeRate.objects.all()
 #     currency = request.GET.get("currency")
@@ -128,6 +132,7 @@ def task(request):
     return HttpResponse(doc.getvalue())
 
 def index(request):
+    images = models.ProductImage.objects.all()
     return render(request, "index.html", locals())
 
 def lotto(request):
@@ -136,3 +141,6 @@ def lotto(request):
         'lotto':random.sample(range(1,46),6)
     }
     return JsonResponse(data, safe=False)
+
+def ftest(request):
+    return render(request, "ftest.html", locals())

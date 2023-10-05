@@ -36,3 +36,16 @@ class ExchangeRate(models.Model):
     rate = models.FloatField(verbose_name="匯率")
     def __str__(self):
         return self.currency
+    
+class Gallery(models.Model):
+    name = models.CharField(max_length=20, verbose_name="照片名稱")
+    photo = models.ImageField(upload_to="gallery", verbose_name="照片")
+    def __str__(self):
+        return self.name
+    
+from filer.fields.image import FilerImageField
+class ProductImage(models.Model):
+    name = models.CharField(max_length=20)
+    image = FilerImageField(related_name="prodcut_image", on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name

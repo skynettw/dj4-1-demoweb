@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} 我的相簿 {% endblock %}
+{% block page-title %} 我的相簿 {% endblock %}
+{% block main-content %}
+    <div class="row">
+    {% for item in data %}
+        <div class="col-3">
+            <div class="card">
+                {% with photo=item.photo.url %}
+                    <a href="{{ photo }}">
+                        <img class="card-img-top" src="{{ photo }}">
+                    </a>
+                {% endwith %}
+                <div class="card-body" align="center">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+                <div class="card-footer" align="center">
+                        {{ item.photo.width }} x {{ item.photo.height }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

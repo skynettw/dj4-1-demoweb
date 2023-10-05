@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} 表單測試 {% endblock %}
+{% block page-title %} 表單測試 {% endblock %}
+{% block main-content %}
+<div align="center">
+    <h5 class="alert alert-primary">貸款月付金額試算（本金平均攤還法）</h5>
+    <form action="/ftest/" method="POST" style="width:40rem; text-align:left;" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="amount">貸款金額（新台幣，萬元）：</label>
+            <input type="text" class="form-control form-control-sm" 
+                   value="500" size=10 name="amount" id="amount" required>
+        </div>
+        <div class="form-group">
+            <label for="rate">年利率（%）：</label>
+            <input type="text" class="form-control form-control-sm" 
+                   value="2.5" size=10 name="rate" id="rate" required>
+        </div>
+        <div class="form-group">
+            <label for="rate">借款年限（年）：</label>
+            <input type="text" class="form-control form-control-sm" 
+                   value="5" size=10 name="year" id="rate" required>
+        </div>
+        <input type="submit" value="試算" class="btn btn-sm btn-primary">
+        <input type="reset" value="清除重填" class="btn btn-sm btn-warning">
+    </form>
+
+    <form action="/ftest/" method="POST">
+        {% csrf_token %}
+            輸入1：<input type="text" name="f1" size=5 value=10 placeholder="請輸入年限"><br/>
+        輸入2：<input type="text" name="f2" size=5><br/>
+        <input type="submit" value="送出">
+        <input type="reset" value="清除重填">
+    </form>
+    
+</div>  
+{% endblock %}

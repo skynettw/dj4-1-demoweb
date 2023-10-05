@@ -2,6 +2,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from mysite import views
+from demoweb import settings
+from django.conf.urls.static import static
 
 mytask_patterns = [
     path('', views.mytask),
@@ -14,6 +16,7 @@ mytask_patterns = [
 
 urlpatterns = [
     path('', views.index),
+    path('gallery/', views.gallery),
     path('rate/', views.rate),
     path('rate/<str:currency>/<int:amount>/', views.rate),
     path('note/list/', views.note_list, name='notelist'),
@@ -30,8 +33,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('mytask/', include(mytask_patterns)),
     path('polls/', include('polls.urls')),
+    path('filer/', include('filer.urls')),
+    path('ftest/', include('ftest.urls')),
 ] 
-
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 admin.site.site_title = "管理後台"
 admin.site.site_header = "歡迎使用管理後台"
 admin.site.index_title = "何老師的網站管理後台"
