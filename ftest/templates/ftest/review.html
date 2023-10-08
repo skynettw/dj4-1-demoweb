@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 我的美食評論 {% endblock %}
+{% block page-title %} 我的美食評論 {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-4 mx-auto">
+        {% if food %}
+            <table class="table table-striped">
+                <tr><td>餐點：</td><td>{{ food }}</td></tr>
+                <tr><td>用餐種類：</td><td>{{ food_type }}</td></tr>
+                <tr><td>評分：</td><td>{{ score }}</td></tr>
+                <tr><td>評語：</td><td>{{ comment }}</td></tr>
+            </table>
+            <form action="/ftest/review/">
+                <input type="submit" value="重新評論" class="btn btn-primary btn-sm">
+            </form>
+        {% else %}
+        <form action="/ftest/review/" method="POST" class="form-sm" style="width: 20rem;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="food">食物名稱：</label>
+                <input type="text" id="food" name="food" size=20 class="form-control" required>
+            </div>
+            {% for food_type in food_types %}
+                <input type="checkbox" name="food-type" value="{{ food_type }}" 
+                                       {% if forloop.first %} checked {% endif %}>
+                {{ food_type }}
+            {% endfor %}
+            <br>
+            分數：
+            {% for i in scores %}
+                <input type="radio" name="score" value="{{ forloop.counter }}"
+                                    {% if forloop.last %} checked {% endif %}>
+                <label for="score">{{ forloop.counter }}</label>                        
+            {% endfor %}
+            <br>
+            評語：<br>
+            <textarea name="comment" rows=5 cols=50>無</textarea>
+            <br>
+                <input type="submit" value="送出評論" class="btn btn-sm btn-primary">
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
