@@ -40,8 +40,6 @@ def review3(request):
         data = FoodReviewForm(request.POST, request.FILES)
         if data.is_valid():
             data.save()
-        else:
-            print("not valid")
         return redirect("/ftest/review3/")
     else:
         form = FoodReviewForm()
