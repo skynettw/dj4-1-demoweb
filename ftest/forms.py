@@ -1,4 +1,12 @@
 from django import forms
+from ftest.models import FoodReview
+from django.forms import ModelForm
+
+class FoodReviewForm(ModelForm):
+    class Meta:
+        model = FoodReview
+        fields = '__all__'
+
 
 FOOD_TYPE = [("早餐","早餐"), ("午餐","午餐"),
              ("晚餐","晚餐"), ("宵夜","宵夜"), ("點心","點心")]

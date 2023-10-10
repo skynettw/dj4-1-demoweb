@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from ftest.forms import ReviewForm
+from django.shortcuts import render, redirect
+from ftest.forms import ReviewForm, FoodReviewForm
+from ftest.models import FoodReview
+
 def bmi(request):
     if request.method=="POST":
         try:
@@ -32,3 +34,16 @@ def review2(request):
     else:
         form = ReviewForm()
     return render(request, "ftest/review2.html", locals())
+
+def review3(request):
+    if request.method == "POST":
+        data = FoodReviewForm(request.POST, request.FILES)
+        if data.is_valid():
+            data.save()
+        else:
+            print("not valid")
+        return redirect("/ftest/review3/")
+    else:
+        form = FoodReviewForm()
+    reviews = FoodReview.objects.all().order_by('-id')
+    return render(request, "ftest/review3.html", locals())
