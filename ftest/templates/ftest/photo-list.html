@@ -22,7 +22,9 @@
         {% for photo in plist %}
             <div class="col-2">
                 <div class="card">
-                    <img src="{{ photo.photo.url }}" class="card-img-top">
+                    <a href="{{ photo.photo.url }}">
+                        <img src="{{ photo.photo.url }}" class="card-img-top">
+                    </a>
                     <div class="card-body">
                         <small>{{ photo.memo | linebreaks }}</small>
                     </div>

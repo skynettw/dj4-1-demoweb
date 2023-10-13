@@ -115,5 +115,6 @@ def photo_add(request, id):
 @login_required(login_url="/admin/login/")
 def photo_del(request, id):
     target = Photo.objects.get(id=id)
+    diary = target.diary
     target.delete()
-    return redirect("/ftest/photo/list/")
+    return redirect("/ftest/photo/list/{}/".format(diary.id))
