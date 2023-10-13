@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 影像日記 {% endblock %}
+{% block page-title %} 影像日記 {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-8 mx-auto">
+        <div class="card">
+            <div class="card-title">
+                <h5 class="alert alert-primary">
+                    {{ diary.date }}
+                </h5>
+            </div>
+            <div class="card-body">
+                {{ diary.content | linebreaks }}
+                <br>
+                <div class="row">
+                {% for photo in photos %}
+                    <div class="col-3">
+                        <a href="{{ photo.photo.url }}">
+                            <img src="{{ photo.photo.url }}" class="img-thumbnail">
+                        </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer">
+                <small>{{ diary.rec_date }}</small>
+                <a class="btn btn-sm btn-outline-secondary" 
+                   href="/ftest/diary/">回列表</a>
+                <a class="btn btn-sm btn-outline-secondary" 
+                   href="/ftest/photo/list/{{ diary.id }}/">照片管理</a>
+                <a class="btn btn-sm btn-outline-secondary" 
+                   href="/ftest/diary/edit/{{ diary.id }}/">編輯</a>
+                <a class="btn btn-sm btn-outline-danger" 
+                   href="/ftest/diary/del/{{ diary.id }}/">刪除</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

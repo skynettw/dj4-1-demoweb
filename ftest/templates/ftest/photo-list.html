@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 影像日記 {% endblock %}
+{% block page-title %} 照片管理 {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-8 mx-auto">
+        <center>
+        <h4 class="alert alert-primary">{{ diary.date }}的照片</h4>
+            <a class="btn btn-sm btn-outline-primary"
+               href="/ftest/photo/add/{{ diary.id }}/">
+            新增照片
+            </a>
+            <a class="btn btn-sm btn-outline-primary"
+               href="/ftest/diary/show/{{ diary.id }}/">
+            返回日記
+            </a>
+            <br><br>
+        </center>
+    </div>
+    <div class="row">
+        {% for photo in plist %}
+            <div class="col-2">
+                <div class="card">
+                    <img src="{{ photo.photo.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <small>{{ photo.memo | linebreaks }}</small>
+                    </div>
+                    <div class="card-footer">
+                        <center><a class="btn btn-sm btn-outline-danger"
+                                   href="/ftest/photo/del/{{ photo.id }}/">刪除</a></center>
+                    </div>
+                </div>  
+            </div>
+        {% empty %}
+            <div class="col-8 mx-auto">本日記尚無上傳照片</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

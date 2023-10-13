@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 影像日記 {% endblock %}
+{% block page-title %} 新增照片 {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-8 mx-auto">
+        <h4 class="alert alert-primary">新增{{ diary.date }}的照片</h4>
+        <form action="/ftest/photo/add/{{ diary.id }}/" method="POST"
+              enctype="multipart/form-data" class="form-sm form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <input type="submit" value="上傳照片" class="btn btn-sm btn-primary">
+        </form>
+    </div>
+</div>
+{% endblock %}

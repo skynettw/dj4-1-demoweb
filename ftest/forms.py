@@ -1,11 +1,21 @@
 from django import forms
-from ftest.models import FoodReview
+from ftest.models import FoodReview, Diary, Photo
 from django.forms import ModelForm
 
 class FoodReviewForm(ModelForm):
     class Meta:
         model = FoodReview
         fields = '__all__'
+
+class DiaryForm(ModelForm):
+    class Meta:
+        model = Diary
+        fields = ['date', 'content']
+        
+class PhotoForm(ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['photo', 'memo']
 
 
 FOOD_TYPE = [("早餐","早餐"), ("午餐","午餐"),
@@ -17,4 +27,6 @@ class ReviewForm(forms.Form):
                                   widget=forms.CheckboxSelectMultiple)
     score = forms.ChoiceField(choices=SCORES, widget=forms.RadioSelect, label="評分")
     comment = forms.CharField(widget=forms.Textarea(attrs={'rows':5, 'cols':40}), label="評論")
+    
+
     

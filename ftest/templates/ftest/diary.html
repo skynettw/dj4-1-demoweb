@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 影像日記 {% endblock %}
+{% block page-title %} 影像日記 {% endblock %}
+{% block main-content %}
+<div class="row">
+    <div class="col-8 mx-auto">
+        <h4 class="alert alert-primary">我的日記</h3>
+            <a class="btn btn-sm btn-outline-primary"
+               href="/ftest/diary/add/">
+            新增日記
+            </a>
+        <table class="table table-striped table-sm">
+            <tr><th>日期</th><th>內容摘要</th><th>記錄日期</th></tr>
+        {% for diary in diaries %}
+            <tr>
+                <td>
+                    <a href="/ftest/diary/show/{{ diary.id }}/">
+                        <small>{{ diary.date }}</small>
+                    </a>
+                </td>
+                <td>
+                   {{ diary.content | truncatechars:15 }}
+                </td>
+                <td> 
+                    <small>{{ diary.rec_date }}</small>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colsapn=4>目前尚無日記內容</td></tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

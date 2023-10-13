@@ -1,6 +1,9 @@
+from datetime import date
 from django.shortcuts import render, redirect
-from ftest.forms import ReviewForm, FoodReviewForm
-from ftest.models import FoodReview
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from ftest.forms import ReviewForm, FoodReviewForm, DiaryForm, PhotoForm
+from ftest.models import FoodReview, Diary, Photo
 
 def bmi(request):
     if request.method=="POST":
@@ -45,3 +48,72 @@ def review3(request):
         form = FoodReviewForm()
     reviews = FoodReview.objects.all().order_by('-id')
     return render(request, "ftest/review3.html", locals())
+
+@login_required(login_url="/admin/login/")
+def diary(request):
+    user = User.objects.get(username=request.user.username)
+    diaries = Diary.objects.filter(user=user).order_by('-date')
+    return render(request, "ftest/diary.html", locals())
+
+@login_required(login_url="/admin/login")
+def diary_show(request, id):
+    diary = Diary.objects.get(id=id)
+    photos = Photo.objects.filter(diary=diary)
+    return render(request, "ftest/diary-show.html", locals())
+
+@login_required(login_url="/admin/login/")
+def diary_add(request):
+    if request.method == "POST":
+        user = User.objects.get(username=request.user.username)
+        new_item = Diary(user=user, date=date.today(), content="")
+        form = DiaryForm(request.POST, instance=new_item)
+        if form.is_valid():
+            form.save()
+        return redirect("/ftest/diary/")
+    else:
+        form = DiaryForm()
+    return render(request, "ftest/diary-add.html", locals())
+
+@login_required(login_url="/admin/login/")
+def diary_del(request, id):
+    target = Diary.objects.get(id=id)
+    target.delete()
+    return redirect("/ftest/diary/")
+
+@login_required(login_url="/admin/login/")
+def diary_edit(request, id):
+    if request.method == "POST":
+        curr_item = Diary.objects.get(id=id)
+        form = DiaryForm(request.POST, instance=curr_item)
+        if form.is_valid():
+            form.save()
+            return redirect("/ftest/diary/show/{}/".format(id))
+    else:
+        item = Diary.objects.get(id=id)
+        form = DiaryForm(instance=item)
+    return render(request, "ftest/diary-edit.html", locals())
+        
+@login_required(login_url="/admin/login/")        
+def photo_list(request, id):
+    diary = Diary.objects.get(id=id)
+    plist = Photo.objects.filter(diary=diary).order_by('-id')
+    return render(request, "ftest/photo-list.html", locals())
+
+@login_required(login_url="/admin/login/")
+def photo_add(request, id):
+    diary = Diary.objects.get(id=id)
+    if request.method == "POST":
+        new_photo = Photo(diary=diary, memo="")
+        form = PhotoForm(request.POST, request.FILES, instance=new_photo)
+        if form.is_valid():
+            form.save()
+        return redirect("/ftest/photo/list/{}/".format(diary.id))
+    else:
+        form = PhotoForm()
+    return render(request, "ftest/photo-add.html", locals())
+
+@login_required(login_url="/admin/login/")
+def photo_del(request, id):
+    target = Photo.objects.get(id=id)
+    target.delete()
+    return redirect("/ftest/photo/list/")
