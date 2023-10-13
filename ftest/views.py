@@ -1,4 +1,5 @@
 from datetime import date
+import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -77,6 +78,11 @@ def diary_add(request):
 @login_required(login_url="/admin/login/")
 def diary_del(request, id):
     target = Diary.objects.get(id=id)
+    photos = Photo.objects.filter(diary=target)
+    for photo in photos:
+        print(photo.photo.path)
+        os.remove(photo.photo.path)
+        photo.delete()
     target.delete()
     return redirect("/ftest/diary/")
 
@@ -115,6 +121,7 @@ def photo_add(request, id):
 @login_required(login_url="/admin/login/")
 def photo_del(request, id):
     target = Photo.objects.get(id=id)
+    os.remove(target.photo.path)
     diary = target.diary
     target.delete()
     return redirect("/ftest/photo/list/{}/".format(diary.id))
