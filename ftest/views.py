@@ -80,7 +80,6 @@ def diary_del(request, id):
     target = Diary.objects.get(id=id)
     photos = Photo.objects.filter(diary=target)
     for photo in photos:
-        print(photo.photo.path)
         os.remove(photo.photo.path)
         photo.delete()
     target.delete()
