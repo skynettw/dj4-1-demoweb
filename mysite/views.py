@@ -1,6 +1,9 @@
 from django.http import HttpResponse, FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.contrib import messages
+from mysite.forms import DailyNoteForm
 from demoweb.settings import BASE_DIR
 from yattag import Doc
 import random
@@ -144,3 +147,30 @@ def lotto(request):
 
 def ftest(request):
     return render(request, "ftest.html", locals())
+
+def pnote_list(request, p=1):
+    request.session.set_expiry(0)
+    notes = models.DailyNote.objects.all().order_by("-note_date")
+    ntypes = models.NoteType.objects.all()
+    paginator = Paginator(notes, 5)
+    page = paginator.page(p)
+    items = page.object_list
+    return render(request, "pnote-list.html", locals())
+
+def pnote_add(request):
+    ntypes = models.NoteType.objects.all()
+    if request.method == "POST":
+        form = DailyNoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if not request.session.has_key('counter'):
+                request.session['counter'] = 1
+            else:
+                request.session['counter'] = request.session['counter'] + 1
+            messages.add_message(request, messages.SUCCESS, "新增成功")
+        else:
+            messages.add_message(request, messages.WARNING, "無法新增")
+        return redirect("/pnote/list/")
+    else:
+        form = DailyNoteForm()
+    return render(request, "pnote-add.html", locals())

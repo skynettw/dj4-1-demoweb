@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %} 隨身記事列表 {% endblock %}
+{% block page-title %} 隨身記事列表 {% endblock %}
+{% block main-content %}
+<script>
+    NoteTypeName = {
+        {% for ntype in ntypes %}
+            "{{ ntype.id }}": "{{ ntype.name }}",
+        {% endfor %}
+    }
+    function ShowNoteTypeName(t) {
+        document.write(NoteTypeName[t]);
+    }
+</script>
+<div align="center">
+    {% if messages %}
+        {% for msg in messages %}
+            <h5 class="alert alert-{{ msg.level_tag }}">{{ msg.message }}</h5>
+        {% endfor %}
+    {% endif %}
+    <h5 class="alert alert-primary">第{{ page.number }}頁</h5>
+    <a href="/pnote/list/{{ 1 }}/">首頁</a>
+    {% if page.has_previous %}
+        <a href="/pnote/list/{{ page.previous_page_number }}/">上一頁</a>
+    {% endif %}
+    {% if page.has_next %}
+        <a href="/pnote/list/{{ page.next_page_number }}/">下一頁</a>
+    {% endif %}
+    <a href="/pnote/list/{{ paginator.num_pages }}/">末頁</a>
+    <table class="table table-striped">
+        <tr>
+            <th>日期</th><th>記事名稱</th>
+            <th>記事型態</th><th>金額</th>
+        </tr>
+    {% for item in items %}
+        <tr>
+            <td> {{ item.note_date }}</td>
+            <td> {{ item.note }} </td>
+            <td> 
+                <script> 
+                    ShowNoteTypeName("{{ item.note_type.id }}");
+                </script> 
+            </td>
+            <td align="right"> 
+                {% if item.money > 0 %} {{ item.money }} {% else %} - {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan=4>沒有任何記事可以顯示</td></tr>
+    {% endfor %}
+    </table>
+    <nav aria-label="分頁導覽">
+        <ul class="pagination">
+            <li class="page-item {% if not page.has_previous %} disabled {% endif %}">
+                <a class="page-link" 
+                    {% if page.has_previous %}
+                    href="/pnote/list/{{ page.previous_page_number }}/"
+                    {% endif %}
+                >Previous</a>
+            </li>
+            {% for p in paginator.page_range %}
+            <li class="page-item {% if p == page.number %} active {% endif %}">
+                <a class="page-link" href="/pnote/list/{{ p }}/">{{ p }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {% if not page.has_next %} disabled {% endif %}">
+                <a class="page-link" 
+                    {% if page.has_next %}
+                    href="/pnote/list/{{ page.next_page_number }}/"
+                    {% endif %}
+                >Next</a>
+            </li>
+        </ul>
+      </nav>
+</div>  
+{% endblock %}

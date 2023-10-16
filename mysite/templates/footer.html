@@ -1,3 +1,6 @@
 <center>
 歡迎一起來學習~~ 
+{% if request.session.counter %}
+【本次瀏覽過程中，你共新增了{{ request.session.counter }} 筆記事】
+{% endif %}
 </center>

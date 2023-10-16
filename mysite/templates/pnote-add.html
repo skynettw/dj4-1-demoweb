@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} 隨身記事 {% endblock %}
+{% block page-title %} 新增記事 {% endblock %}
+{% block main-content %}
+<div align="center">
+    <h5 class="alert alert-primary">新增記事</h5>
+    <form action="/pnote/add/" method="POST" style="width:40rem; text-align:left;" class="form-inline">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="新增" class="btn btn-sm btn-primary">
+    </form>
+    
+</div>  
+{% endblock %}

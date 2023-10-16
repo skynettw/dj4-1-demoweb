@@ -35,6 +35,9 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('filer/', include('filer.urls')),
     path('ftest/', include('ftest.urls')),
+    path('pnote/list/', views.pnote_list),
+    path('pnote/list/<int:p>/', views.pnote_list),
+    path('pnote/add/', views.pnote_add),
 ] 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 admin.site.site_title = "管理後台"
